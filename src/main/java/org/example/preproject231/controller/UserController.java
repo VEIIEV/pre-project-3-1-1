@@ -32,33 +32,29 @@ public class UserController {
         return "user-create-form";
     }
 
-    @GetMapping("/{id}")
-    public String getUserById(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "users";
-    }
+//    @GetMapping("/{id}")
+//    public String getUserById(@PathVariable("id") long id, Model model) {
+//        model.addAttribute("user", userService.getUserById(id));
+//        return "users";
+//    }
 
     @PostMapping
-    public String addUser(@ModelAttribute UserDto user, Model model) {
+    public String addUser(@ModelAttribute UserDto user) {
         userService.addUser(user);
-        model.addAttribute("users", userService.getUsersList());
-        return "users";
+        return "redirect:/users";
     }
 
     @PutMapping("/{id}")
-    public String updateUser(@PathVariable("id") long id, @ModelAttribute UserDto user, Model model) {
+    public String updateUser(@PathVariable("id") long id, @ModelAttribute UserDto user) {
         userService.updateUser(id, user);
-        model.addAttribute("users", userService.getUsersList());
-        return "users";
+        return "redirect:/users";
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable("id") long id, Model model) {
+    public String deleteUser(@PathVariable("id") long id) {
         userService.deleteUser(id);
-        model.addAttribute("users", userService.getUsersList());
-        return "users";
+        return "redirect:/users";
     }
 
-//    мне нужны странички с формами для создания и апдейта
 
 }
