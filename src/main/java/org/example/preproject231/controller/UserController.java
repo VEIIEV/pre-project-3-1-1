@@ -22,18 +22,20 @@ public class UserController {
     @GetMapping
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.getUsersList());
+        model.addAttribute("isEdit", false);
         return "users";
     }
 
     @GetMapping("/{id}/update-form")
     public String getUpdateForm(@PathVariable Long id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
-        return "user-update-form";
+        model.addAttribute("isEdit", true);
+        return "user-form";
     }
 
     @GetMapping("/create-form")
     public String getCreateForm() {
-        return "user-create-form";
+        return "user-form";
     }
 
     @PostMapping
