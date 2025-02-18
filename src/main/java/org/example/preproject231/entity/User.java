@@ -1,6 +1,7 @@
 package org.example.preproject231.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
+    @Email
     @Column(name = "email", unique = true)
     private String email;
 

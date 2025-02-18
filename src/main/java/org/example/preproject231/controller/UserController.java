@@ -6,6 +6,8 @@ import org.example.preproject231.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -28,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/create-form")
-    public String getCreateForm(Model model) {
+    public String getCreateForm() {
         return "user-create-form";
     }
 
@@ -39,13 +41,27 @@ public class UserController {
 //    }
 
     @PostMapping
-    public String addUser(@ModelAttribute UserDto user) {
+    public String addUser(@Validated @ModelAttribute UserDto user,
+                          BindingResult result,
+                          Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            return "user-create-form";
+        }
+
         userService.addUser(user);
         return "redirect:/users";
     }
 
     @PutMapping("/{id}")
-    public String updateUser(@PathVariable("id") long id, @ModelAttribute UserDto user) {
+    public String updateUser(@PathVariable("id") long id,
+                             @Validated @ModelAttribute UserDto user,
+                             BindingResult result,
+                             Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            return "user-create-form";
+        }
         userService.updateUser(id, user);
         return "redirect:/users";
     }

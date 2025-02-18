@@ -7,6 +7,13 @@
 <body>
 
 <div class="container">
+    <div class="error" th:if="${errors}">
+        <ul>
+            <li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
+        </ul>
+    </div>
+
+
     <h2>Обновление пользователя</h2>
     <form th:action="@{/users/{id}(id=${user.id})}" method="post">
         <input type="hidden" name="_method" value="put">
