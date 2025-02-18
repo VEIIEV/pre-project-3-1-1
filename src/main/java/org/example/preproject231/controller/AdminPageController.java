@@ -11,13 +11,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/users")
-public class UserController {
-
+@RequestMapping("/admin/users")
+public class AdminPageController {
 
 
     @Autowired
     private UserService userService;
+
 
     @GetMapping
     public String getAllUsers(Model model) {
