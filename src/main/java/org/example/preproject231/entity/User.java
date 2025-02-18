@@ -28,7 +28,6 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Email
     @Column(name = "email", unique = true)
     private String email;
 

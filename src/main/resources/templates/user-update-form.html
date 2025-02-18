@@ -17,8 +17,6 @@
     <h2>Обновление пользователя</h2>
     <form th:action="@{/users/{id}(id=${user.id})}" method="post">
         <input type="hidden" name="_method" value="put">
-        <input type="hidden" id="id" name="id" value="1">
-
         <label for="firstName">Имя:</label>
         <input type="text" id="firstName" name="firstName" th:value="${user.firstName}" required>
 

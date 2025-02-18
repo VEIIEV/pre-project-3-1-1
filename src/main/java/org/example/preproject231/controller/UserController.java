@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
+
+
     @Autowired
     private UserService userService;
 
@@ -34,19 +36,15 @@ public class UserController {
         return "user-create-form";
     }
 
-//    @GetMapping("/{id}")
-//    public String getUserById(@PathVariable("id") long id, Model model) {
-//        model.addAttribute("user", userService.getUserById(id));
-//        return "users";
-//    }
-
     @PostMapping
     public String addUser(@Validated @ModelAttribute UserDto user,
                           BindingResult result,
                           Model model) {
+        model.addAttribute("isEdit", false);
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
-            return "user-create-form";
+
+            return "user-form";
         }
 
         userService.addUser(user);
@@ -58,9 +56,10 @@ public class UserController {
                              @Validated @ModelAttribute UserDto user,
                              BindingResult result,
                              Model model) {
+        model.addAttribute("isEdit", true);
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
-            return "user-create-form";
+            return "user-form";
         }
         userService.updateUser(id, user);
         return "redirect:/users";

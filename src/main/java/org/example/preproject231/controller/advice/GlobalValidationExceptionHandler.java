@@ -1,4 +1,4 @@
-package org.example.preproject231.controller.advices;
+package org.example.preproject231.controller.advice;
 
 
 import org.springframework.dao.EmptyResultDataAccessException;
