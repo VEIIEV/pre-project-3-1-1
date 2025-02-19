@@ -1,6 +1,7 @@
 package org.example.preproject231.controller;
 
 
+import jakarta.annotation.Nullable;
 import org.example.preproject231.dto.UserDto;
 import org.example.preproject231.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin/users")
@@ -56,6 +59,7 @@ public class AdminPageController {
     @PutMapping("/{id}")
     public String updateUser(@PathVariable("id") long id,
                              @Validated @ModelAttribute UserDto user,
+                             @RequestParam(name = "roles", required = false)  Set<String> roles,
                              BindingResult result,
                              Model model) {
         model.addAttribute("isEdit", true);
@@ -63,8 +67,8 @@ public class AdminPageController {
             model.addAttribute("errors", result.getAllErrors());
             return "user-form";
         }
-        userService.updateUser(id, user);
-        return "redirect:/users";
+        userService.updateUser(id, user, roles);
+        return "redirect:/admin/users";
     }
 
     @DeleteMapping("/{id}")

@@ -5,7 +5,7 @@
     <title>profile</title>
 </head>
 <body>
-<div th:insert="fragments/logout-fragment :: logout"></div>
+<th:block th:insert="~{fragments/logout-fragment :: logout}"></th:block>
 
 <ul>
     <li th:text="${user.firstName}"></li>

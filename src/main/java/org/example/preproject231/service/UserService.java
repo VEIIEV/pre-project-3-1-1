@@ -11,8 +11,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -41,10 +42,14 @@ public class UserService {
         return new UserDto(userFromDb);
     }
 
-    public UserDto updateUser(long id, UserDto user) {
+    public UserDto updateUser(long id, UserDto user, Set<String> roles) {
         User userFromDb = userDao.findById(id).orElseThrow(
                 () -> new EmptyResultDataAccessException("User with id " + id + " not found", 1));
-        //внести из дто данные в userFromDb
+
+        if (roles != null) {
+            roles = roles.stream().map(role -> role.split("_")[1]).collect(Collectors.toSet());
+            userFromDb.setRoles(roleDao.findByNameIn(roles));
+        }
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
         userFromDb.setEmail(user.getEmail());

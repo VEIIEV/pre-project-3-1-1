@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<div th:insert="fragments/logout-fragment :: logout"></div>
+<th:block th:insert="~{fragments/logout-fragment :: logout}"></th:block>
 
 <a href="/admin/users">продолжить</a>
 <a href="/registration">зарегистрироваться</a>
