@@ -16,9 +16,9 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/users/{id}")
-    public String getUserById(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
+    @GetMapping("/users/{username}")
+    public String getUserById(@PathVariable("username") String username, Model model) {
+        model.addAttribute("user", userService.getUserByUsername(username));
         return "users";
     }
 

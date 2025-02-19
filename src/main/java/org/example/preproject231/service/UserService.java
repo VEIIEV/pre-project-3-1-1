@@ -6,6 +6,8 @@ import org.example.preproject231.dto.UserDto;
 import org.example.preproject231.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +29,8 @@ public class UserService {
     }
 
     public UserDto addUser(UserDto user) {
-                User userFromDb = userDao.save(user.toUser());
-        return new UserDto (userFromDb);
+        User userFromDb = userDao.save(user.toUser());
+        return new UserDto(userFromDb);
     }
 
     public UserDto updateUser(long id, UserDto user) {
@@ -44,5 +46,11 @@ public class UserService {
 
     public void deleteUser(long id) {
         userDao.deleteById(id);
+    }
+
+    public Object getUserByUsername(String username) {
+        return userDao.findByUsername(username).orElseThrow(
+                () -> new EmptyResultDataAccessException("User with username {" + username + "} not found", 1));
+
     }
 }

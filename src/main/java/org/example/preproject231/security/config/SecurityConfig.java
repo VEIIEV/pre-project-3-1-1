@@ -1,21 +1,24 @@
 package org.example.preproject231.security.config;
 
+import org.example.preproject231.security.handler.AuthenticationByRoleSuccessHandler;
 import org.example.preproject231.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 public class SecurityConfig {
@@ -25,7 +28,9 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+    public SecurityFilterChain configure(HttpSecurity http,
+                                         AuthenticationManager authenticationManager,
+                                         AuthenticationByRoleSuccessHandler authenticationByRoleSuccessHandler) throws Exception {
         return http.
                 csrf(AbstractHttpConfigurer::disable).
                 authorizeHttpRequests(auth -> auth.
@@ -37,7 +42,12 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/admin/**")
                         ).hasRole("ADMIN").
                         anyRequest().authenticated()).
-                formLogin(Customizer.withDefaults()).
+                authenticationManager(authenticationManager).
+                formLogin(login -> login.
+                        loginPage("/login").
+                        failureForwardUrl("/login").
+                        loginProcessingUrl("/login").
+                        successHandler(authenticationByRoleSuccessHandler)).
                 logout(Customizer.withDefaults()).
                 build();
 
@@ -46,19 +56,35 @@ public class SecurityConfig {
 
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .authenticationProvider(authenticationProvider())
-                .build();
+    public AuthenticationManager authenticationManager(InMemoryUserDetailsManager inMemoryUserDetailsManager) throws Exception {
+        return new ProviderManager(daoAuthenticationProvider(), inMemoryAuthenticationProvider(inMemoryUserDetailsManager));
     }
 
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(customUserDetailsService);
         return daoAuthenticationProvider;
+    }
+
+    //    дефолтный провайдер
+    @Bean
+    public DaoAuthenticationProvider inMemoryAuthenticationProvider(InMemoryUserDetailsManager inMemoryUserDetailsManager) {
+        DaoAuthenticationProvider inMemoryAuthenticationProvider = new DaoAuthenticationProvider();
+        inMemoryAuthenticationProvider.setUserDetailsService(inMemoryUserDetailsManager);
+        return inMemoryAuthenticationProvider;
+    }
+
+    @Bean
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager(SecurityProperties securityProperties) {
+        SecurityProperties.User user = securityProperties.getUser();
+        UserDetails userDetails = User.withUsername(user.getName())
+                .password("{noop}" + user.getPassword())
+                .roles(user.getRoles().toArray(new String[0]))
+                .build();
+        return new InMemoryUserDetailsManager(userDetails);
     }
 
 
@@ -66,6 +92,8 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
 
 
 }

@@ -42,3 +42,14 @@ spring:
       name: admin
       password: admin123
       roles: ADMIN
+
+logging:
+  level:
+    org:
+      springframework:
+        security=TRACE:
+
+custom:
+  success-redirect:
+    user-url: /users/*
+    admin-url: /admin/users
