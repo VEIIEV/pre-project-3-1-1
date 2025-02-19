@@ -19,6 +19,6 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, Us
     public boolean isValid(UserDto userDto, ConstraintValidatorContext constraintValidatorContext) {
 
         Optional<User> userOptional = userDao.findByEmail(userDto.getEmail());
-        return userOptional.isEmpty(); //|| new UserDto(userOptional.get()).equals(userDto);
+        return userOptional.isEmpty() || userOptional.get().getEmail().equals(userDto.getEmail());
     }
 }

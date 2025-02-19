@@ -46,10 +46,12 @@ public class UserService {
         User userFromDb = userDao.findById(id).orElseThrow(
                 () -> new EmptyResultDataAccessException("User with id " + id + " not found", 1));
 
+        if (!userFromDb.getEmail().equals(user.getEmail())) {
+            userFromDb.setEmail(user.getEmail());
+        }
         addRoles(roles, userFromDb);
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
-        userFromDb.setEmail(user.getEmail());
         userDao.save(userFromDb);
         return user;
     }

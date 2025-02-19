@@ -5,10 +5,8 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.example.preproject231.dao.UserDao;
 import org.example.preproject231.dto.UserAuthDTO;
 import org.example.preproject231.entity.User;
-import org.example.preproject231.validation.annotation.UniqueEmail;
 import org.example.preproject231.validation.annotation.UniqueUsernameAndEmail;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
