@@ -29,13 +29,6 @@ public class AdminPageController {
         return "users";
     }
 
-    @GetMapping("/{id}/update-form")
-    public String getUpdateForm(@PathVariable Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
-        model.addAttribute("isEdit", true);
-        return "user-form";
-    }
-
     @GetMapping("/create-form")
     public String getCreateForm() {
         return "user-form";
@@ -56,10 +49,18 @@ public class AdminPageController {
         return "redirect:/users";
     }
 
+    @GetMapping("/{id}/update-form")
+    public String getUpdateForm(@PathVariable Long id, Model model) {
+        model.addAttribute("user", userService.getUserById(id));
+        model.addAttribute("isEdit", true);
+        return "user-form";
+    }
+
+
     @PutMapping("/{id}")
     public String updateUser(@PathVariable("id") long id,
                              @Validated @ModelAttribute UserDto user,
-                             @RequestParam(name = "roles", required = false)  Set<String> roles,
+                             @RequestParam(name = "roles", required = false) Set<String> roles,
                              BindingResult result,
                              Model model) {
         model.addAttribute("isEdit", true);

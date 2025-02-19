@@ -29,13 +29,13 @@
         <div>
             <label>
                 <input type="checkbox" name="roles" value="ROLE_USER"
-                       th:checked="${isEdit} ? ${#lists.contains(user.roles, 'ROLE_USER')} : false">
+                       th:checked="${isEdit} ? ${#lists.contains(user.roles, 'USER')} : false">
                 ROLE_USER
             </label>
 
             <label>
                 <input type="checkbox" name="roles" value="ROLE_ADMIN"
-                       th:checked="${isEdit} ? ${#lists.contains(user.roles, 'ROLE_ADMIN')} : false">
+                       th:checked="${isEdit} ? ${#lists.contains(user.roles, 'ADMIN')} : false">
                 ROLE_ADMIN
             </label>
         </div>
