@@ -1,25 +1,40 @@
 package org.example.preproject231.dto;
 
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.preproject231.validation.annotation.UniqueUsernameAndEmail;
 
 import java.io.Serializable;
 
-@Getter
 @Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@UniqueUsernameAndEmail(groups = {UserAuthDTO.Registration.class})
 public class UserAuthDTO implements Serializable {
 
-    //todo настроить валидацию так, что при регистрации была обязаловка  всех полей
-    // а при логите только первые 2
+    @NotEmpty(groups = {Login.class, Registration.class})
     private String username;
+
+    @NotEmpty(groups = {Login.class, Registration.class})
     private String password;
+
+    @Email
+    @NotEmpty(groups = {Registration.class})
+    private String email;
+
+    @NotEmpty(groups = {Registration.class})
     private String repeatPassword;
 
-    public static class Login {
+    public interface Login {
     }
 
-    public static class Registration {
+    public interface Registration {
 
     }
 }

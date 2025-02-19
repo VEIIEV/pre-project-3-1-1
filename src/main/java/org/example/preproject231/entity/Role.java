@@ -2,6 +2,7 @@ package org.example.preproject231.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +29,8 @@ public class Role {
     @Getter
     public enum enumRole {
 
-        ADMIN("admin"),
-        USER("user");
+        ADMIN("ROLE_ADMIN"),
+        USER("ROLE_USER");
 
         private final String value;
 

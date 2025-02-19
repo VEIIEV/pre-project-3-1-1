@@ -2,9 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>registration</title>
 </head>
 <body>
+
+<div class="container">
+    <div class="error" th:if="${errors}">
+        <ul>
+            <li th:each="error : ${errors}" th:text="${error.defaultMessage}"></li>
+        </ul>
+    </div>
+
+    <h2> Регистрация</h2>
+    <form action="/registration" method="post">
+
+        <label for="username">Имя:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Пароль:</label>
+        <input type="text" id="password" name="password" required>
+
+        <label for="repeatPassword">Повторите пароль:</label>
+        <input type="text" id="repeatPassword" name="repeatPassword" required>
+
+        <button type="submit">Зарегистрироваться</button>
+
+    </form>
+</div>
 
 </body>
 </html>

@@ -52,8 +52,8 @@ public class User implements UserDetails, Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @Column(nullable = false, columnDefinition = "boolean default true")
-    private boolean isEnabled;
+    @Column(nullable = false)
+    private boolean isEnabled = true;
 
 
     @Override

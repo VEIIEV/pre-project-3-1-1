@@ -49,7 +49,7 @@ public class AdminPageController {
             return "user-form";
         }
 
-        userService.addUser(user);
+        userService.addUser(user.toUser());
         return "redirect:/users";
     }
 

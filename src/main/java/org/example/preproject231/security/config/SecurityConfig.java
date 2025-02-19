@@ -45,7 +45,6 @@ public class SecurityConfig {
                 authenticationManager(authenticationManager).
                 formLogin(login -> login.
                         loginPage("/login").
-                        failureForwardUrl("/login").
                         loginProcessingUrl("/login").
                         successHandler(authenticationByRoleSuccessHandler)).
                 logout(Customizer.withDefaults()).
