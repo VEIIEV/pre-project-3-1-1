@@ -5,6 +5,13 @@
     <title>profile</title>
 </head>
 <body>
+<div th:insert="fragments/logout-fragment :: logout"></div>
+
+<ul>
+    <li th:text="${user.firstName}"></li>
+    <li th:text="${user.getLastName()}"></li>
+    <li th:text="${user.email}"></li>
+</ul>
 
 </body>
 </html>

@@ -5,6 +5,7 @@
     <title th:text="${isEdit} ? 'Обновление пользователя' : 'Добавить пользователя'"></title>
 </head>
 <body>
+<div th:insert="fragments/logout-fragment :: logout"></div>
 
 <div class="container">
     <div class="error" th:if="${errors}">
