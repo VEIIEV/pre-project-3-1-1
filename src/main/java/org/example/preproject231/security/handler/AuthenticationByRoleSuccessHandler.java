@@ -25,7 +25,7 @@ import java.util.Map;
 public class AuthenticationByRoleSuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
-    private  AdditionalSecurityProperties additionalSecurityProperties;
+    private AdditionalSecurityProperties additionalSecurityProperties;
 
     private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -44,6 +44,7 @@ public class AuthenticationByRoleSuccessHandler implements AuthenticationSuccess
                           Authentication authentication) throws IOException {
 
         String targetUrl = determineTargetUrl(authentication);
+        targetUrl = targetUrl.replace("*", authentication.getName());
 
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }

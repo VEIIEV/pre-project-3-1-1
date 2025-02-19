@@ -30,7 +30,7 @@ public class AuthController {
     @GetMapping("/users/{username}")
     public String getUserById(@PathVariable("username") String username, Model model) {
         model.addAttribute("user", userService.getUserByUsername(username));
-        return "users";
+        return "user";
     }
 
     @GetMapping("/login")
@@ -43,7 +43,7 @@ public class AuthController {
     @PostMapping("/login")
     public String sendLoginForm(
             @Validated(UserAuthDTO.Login.class) @ModelAttribute("user") UserAuthDTO userAuthDTO) {
-        return "redirect:/users/{id}";
+        return "redirect:users/";
     }
 
     @GetMapping("/registration")
