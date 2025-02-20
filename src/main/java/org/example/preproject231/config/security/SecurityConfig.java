@@ -47,6 +47,8 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/admin/**")
                         ).hasAuthority("ADMIN").
                         anyRequest().authenticated()).
+                anonymous(Customizer.withDefaults()).
+                securityContext(securityContext -> securityContext.requireExplicitSave(false)).
                 authenticationManager(authenticationManager).
                 formLogin(login -> login.
                         loginPage("/login").
@@ -91,14 +93,10 @@ public class SecurityConfig {
     }
 
 
-
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
 
 
 }
