@@ -18,6 +18,6 @@ public class InMemoryUserProperties extends SecurityProperties.User {
     }
 
     public void setAuthorities(List<String> authorities) {
-рты         this.authorities = authorities;
+        this.authorities = authorities;
     }
 }
