@@ -27,16 +27,17 @@
         <input type="email" id="email" name="email" th:value="${isEdit} ? ${user.email} : ''" required>
 
         <div>
+            <p>Изменить роль</p>
             <label>
                 <input type="checkbox" name="roles" value="USER"
-                       th:checked="${isEdit} ? ${#lists.contains(user.roles, 'USER')} : false">
-                ROLE_USER
+                       th:checked="${isEdit and #lists.contains(user.roles.![name.value], 'USER')}">
+                USER
             </label>
 
             <label>
                 <input type="checkbox" name="roles" value="ADMIN"
-                       th:checked="${isEdit} ? ${#lists.contains(user.roles, 'ADMIN')} : false">
-                ROLE_ADMIN
+                       th:checked="${isEdit and #lists.contains(user.roles.![name.value], 'ADMIN')}">
+                ADMIN
             </label>
         </div>
 

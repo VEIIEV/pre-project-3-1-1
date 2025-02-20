@@ -41,7 +41,9 @@ spring:
     user:
       name: admin
       password: admin123
-      roles: ADMIN
+      authorities: ADMIN
+
+
 
 logging:
   level:
