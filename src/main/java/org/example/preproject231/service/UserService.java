@@ -8,15 +8,17 @@ import org.example.preproject231.entity.Role;
 import org.example.preproject231.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-@Service
-public class UserService {
+@Service("dbUserDetailsService")
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserDao userDao;
@@ -32,6 +34,12 @@ public class UserService {
     public User getUserById(long id) {
         return userDao.findById(id).orElseThrow(
                 () -> new EmptyResultDataAccessException("User with id " + id + " not found", 1));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userDao.findByUsername(username).
+                orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
     }
 
     public UserDto addUser(User user) {

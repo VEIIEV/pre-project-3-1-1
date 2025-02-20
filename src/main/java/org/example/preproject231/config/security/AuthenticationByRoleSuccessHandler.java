@@ -1,9 +1,9 @@
-package org.example.preproject231.security.handler;
+package org.example.preproject231.config.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.example.preproject231.security.config.AdditionalSecurityProperties;
+import org.example.preproject231.config.property.AdditionalSecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

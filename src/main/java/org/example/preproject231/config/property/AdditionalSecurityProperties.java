@@ -1,4 +1,4 @@
-package org.example.preproject231.security.config;
+package org.example.preproject231.config.property;
 
 import lombok.Getter;
 import lombok.Setter;
