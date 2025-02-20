@@ -3,7 +3,6 @@ package org.example.preproject231.security.config;
 import org.example.preproject231.security.handler.AuthenticationByRoleSuccessHandler;
 import org.example.preproject231.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,6 +38,7 @@ public class SecurityConfig {
                 authorizeHttpRequests(auth -> auth.
                         requestMatchers(
                                 new AntPathRequestMatcher("/index"),
+                                new AntPathRequestMatcher("/"),
                                 new AntPathRequestMatcher("/login"),
                                 new AntPathRequestMatcher("/registration")).permitAll().
                         requestMatchers(
@@ -58,7 +58,7 @@ public class SecurityConfig {
 
 
     @Bean
-    public AuthenticationManager authenticationManager(InMemoryUserDetailsManager inMemoryUserDetailsManager) throws Exception {
+    public AuthenticationManager authenticationManager(InMemoryUserDetailsManager inMemoryUserDetailsManager) {
         return new ProviderManager(daoAuthenticationProvider(), inMemoryAuthenticationProvider(inMemoryUserDetailsManager));
     }
 
