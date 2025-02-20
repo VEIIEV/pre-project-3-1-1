@@ -29,8 +29,8 @@ public class Role {
     @Getter
     public enum enumRole {
 
-        ADMIN("ROLE_ADMIN"),
-        USER("ROLE_USER");
+        ADMIN("ADMIN"),
+        USER("USER");
 
         private final String value;
 

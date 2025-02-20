@@ -58,7 +58,6 @@ public class UserService {
 
     private void addRoles(Set<String> roles, User userFromDb) {
         if (roles != null) {
-            roles = roles.stream().map(role -> role.split("_")[1]).collect(Collectors.toSet());
             userFromDb.setRoles(roleDao.findByNameIn(roles));
         } else {
             userFromDb.setRoles(Collections.emptySet());

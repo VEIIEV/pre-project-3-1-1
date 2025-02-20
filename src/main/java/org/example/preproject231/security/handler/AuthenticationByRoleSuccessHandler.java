@@ -1,7 +1,5 @@
 package org.example.preproject231.security.handler;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -52,8 +50,8 @@ public class AuthenticationByRoleSuccessHandler implements AuthenticationSuccess
     protected String determineTargetUrl(final Authentication authentication) {
 
         Map<String, String> roleTargetUrlMap = new HashMap<>();
-        roleTargetUrlMap.put("ROLE_USER", additionalSecurityProperties.getUserUrl());
-        roleTargetUrlMap.put("ROLE_ADMIN", additionalSecurityProperties.getAdminUrl());
+        roleTargetUrlMap.put("USER", additionalSecurityProperties.getUserUrl());
+        roleTargetUrlMap.put("ADMIN", additionalSecurityProperties.getAdminUrl());
 
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {

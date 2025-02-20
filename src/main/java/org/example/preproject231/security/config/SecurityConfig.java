@@ -26,6 +26,9 @@ public class SecurityConfig {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    @Autowired
+    private InMemoryUserProperties inMemoryUserProperties;
+
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http,
@@ -40,7 +43,7 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/registration")).permitAll().
                         requestMatchers(
                                 new AntPathRequestMatcher("/admin/**")
-                        ).hasRole("ADMIN").
+                        ).hasAuthority("ADMIN").
                         anyRequest().authenticated()).
                 authenticationManager(authenticationManager).
                 formLogin(login -> login.
@@ -77,14 +80,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager(SecurityProperties securityProperties) {
-        SecurityProperties.User user = securityProperties.getUser();
-        UserDetails userDetails = User.withUsername(user.getName())
-                .password("{noop}" + user.getPassword())
-                .roles(user.getRoles().toArray(new String[0]))
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+        UserDetails userDetails = User.withUsername(inMemoryUserProperties.getName())
+                .password("{noop}" + inMemoryUserProperties.getPassword())
+                .authorities(inMemoryUserProperties.getAuthorities().toArray(new String[0]))
                 .build();
         return new InMemoryUserDetailsManager(userDetails);
     }
+
+
 
 
     @Bean
