@@ -39,11 +39,6 @@ public class SecurityConfig {
                 csrf(AbstractHttpConfigurer::disable).
                 authorizeHttpRequests(auth -> auth.
                         requestMatchers(
-                                new AntPathRequestMatcher("/index"),
-                                new AntPathRequestMatcher("/"),
-                                new AntPathRequestMatcher("/login"),
-                                new AntPathRequestMatcher("/registration")).permitAll().
-                        requestMatchers(
                                 new AntPathRequestMatcher("/admin/**")
                         ).hasAuthority("ADMIN").
                         anyRequest().authenticated()).
@@ -51,8 +46,6 @@ public class SecurityConfig {
                 securityContext(securityContext -> securityContext.requireExplicitSave(false)).
                 authenticationManager(authenticationManager).
                 formLogin(login -> login.
-                        loginPage("/login").
-                        loginProcessingUrl("/login").
                         successHandler(authenticationByRoleSuccessHandler)).
                 logout(Customizer.withDefaults()).
                 build();

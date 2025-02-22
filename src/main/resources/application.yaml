@@ -34,7 +34,7 @@ spring:
         enabled: true
 
   thymeleaf:
-    prefix: classpath:/templates/
+    prefix: classpath:/static/
     suffix: .html
 
   security:

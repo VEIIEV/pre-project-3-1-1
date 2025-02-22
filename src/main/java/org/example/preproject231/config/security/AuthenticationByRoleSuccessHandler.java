@@ -44,6 +44,9 @@ public class AuthenticationByRoleSuccessHandler implements AuthenticationSuccess
         String targetUrl = determineTargetUrl(authentication);
         targetUrl = targetUrl.replace("*", authentication.getName());
 
+        //todo убрать весь это класс
+        targetUrl = "/";
+
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 

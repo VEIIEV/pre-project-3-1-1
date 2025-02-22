@@ -1,19 +1,20 @@
-package org.example.preproject231.controller;
+package org.example.preproject231.controller.rest;
 
 
 import org.example.preproject231.dto.UserDto;
+import org.example.preproject231.entity.User;
 import org.example.preproject231.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
-@Controller
-@RequestMapping("/admin/users")
+@RestController
+@RequestMapping("/api/admin/users")
 public class AdminPageController {
 
 
@@ -21,11 +22,19 @@ public class AdminPageController {
     private UserService userService;
 
 
+    //todo переписать под рест, и для single пользователя тоже у
     @GetMapping
-    public String getAllUsers(Model model) {
-        model.addAttribute("users", userService.getUsersList());
-        model.addAttribute("isEdit", false);
-        return "users";
+    public List<User> getAllUsers() {
+//        model.addAttribute("users", userService.getUsersList());
+//        model.addAttribute("isEdit", false);
+
+//          <td>${user.id}</td>
+//                <td>${user.firstName}</td>
+//                <td>${user.lastName}</td>
+//                <td>${user.age}</td>
+//                <td>${user.email}</td>
+//                <td>${Array.isArray(user.role) ? user.role.join(", ") : user.role}</td>
+        return userService.getUsersList();
     }
 
     @GetMapping("/create-form")
