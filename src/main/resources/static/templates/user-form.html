@@ -1,7 +1,7 @@
 <div class="container">
     <h2>add new user</h2>
-    <form action="/api/admin/users" method="post">
-        <input type="hidden" name="_method" value="put">
+    <form id="user-creation-form" action="/api/admin/users" method="post">
+<!--        <input type="hidden" name="_method" value="put">-->
 
         <label for="firstName">Имя:</label>
         <input type="text" id="firstName" name="firstName" required>
@@ -13,10 +13,10 @@
         <input type="email" id="email" name="email" required>
 
         <label for="email">username:</label>
-        <input type="email" id="username" name="username" required>
+        <input type="text" id="username" name="username" required>
 
         <label for="email">password:</label>
-        <input type="email" id="password" name="password" required>
+        <input type="text" id="password" name="password" required>
 
         <div>
             <p>Изменить роль</p>

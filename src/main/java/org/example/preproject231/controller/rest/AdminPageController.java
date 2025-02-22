@@ -1,10 +1,13 @@
 package org.example.preproject231.controller.rest;
 
 
+import org.example.preproject231.dto.UserAuthDTO;
 import org.example.preproject231.dto.UserDto;
+import org.example.preproject231.dto.mapper.UserMapper;
 import org.example.preproject231.entity.User;
 import org.example.preproject231.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -17,23 +20,14 @@ import java.util.Set;
 @RequestMapping("/api/admin/users")
 public class AdminPageController {
 
-
     @Autowired
     private UserService userService;
 
+    @Autowired
+    UserMapper userMapper;
 
-    //todo переписать под рест, и для single пользователя тоже у
     @GetMapping
     public List<User> getAllUsers() {
-//        model.addAttribute("users", userService.getUsersList());
-//        model.addAttribute("isEdit", false);
-
-//          <td>${user.id}</td>
-//                <td>${user.firstName}</td>
-//                <td>${user.lastName}</td>
-//                <td>${user.age}</td>
-//                <td>${user.email}</td>
-//                <td>${Array.isArray(user.role) ? user.role.join(", ") : user.role}</td>
         return userService.getUsersList();
     }
 
@@ -42,19 +36,12 @@ public class AdminPageController {
         return "user-form";
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public String addUser(@Validated @ModelAttribute UserDto user,
-                          BindingResult result,
-                          Model model) {
-        model.addAttribute("isEdit", false);
-        if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
+    public UserDto addUser(@Validated(UserAuthDTO.AdminCreation.class) @ModelAttribute UserAuthDTO user) {
 
-            return "user-form";
-        }
+        return userService.addUser(userMapper.toEntity(user));
 
-        userService.addUser(user.toUser());
-        return "redirect:/users";
     }
 
     @GetMapping("/{id}/update-form")

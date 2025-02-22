@@ -27,6 +27,10 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
+    public Role(enumRole enumRole) {
+        this.name = enumRole;
+    }
+
 
     @Getter
     public enum enumRole {

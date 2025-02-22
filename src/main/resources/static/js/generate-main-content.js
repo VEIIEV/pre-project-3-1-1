@@ -6,7 +6,6 @@ function generateAdminPanel(users) {
             <a href="#" data-page="create-user-page">New User</a>
             <a href="#" data-page="users-table-page">Users table</a>
         </div>
-        <h3>All users</h3>
     `);
 
     container.append(generateWorkTable(users));

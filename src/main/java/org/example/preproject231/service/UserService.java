@@ -43,8 +43,6 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDto addUser(User user) {
-        Role role = roleDao.getRoleByName(Role.enumRole.USER);
-        user.setRoles(Collections.singleton(role));
 
         User userFromDb = userDao.save(user);
         return new UserDto(userFromDb);
@@ -80,5 +78,9 @@ public class UserService implements UserDetailsService {
         return userDao.findByUsername(username).orElseThrow(
                 () -> new EmptyResultDataAccessException("User with username {" + username + "} not found", 1));
 
+    }
+
+    public Role getRoleByName(String name) {
+        return roleDao.getRoleByName(Role.enumRole.valueOf(name));
     }
 }

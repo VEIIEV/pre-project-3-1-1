@@ -42,7 +42,7 @@ $(document).ready(function () {
             let page = $(this).data("page");
 
             if (page === "create-user-page") {
-                loadNewUserForm();
+                $("#work-table").load("templates/user-form.html")
             } else if (page === "users-table-page") {
                 $.get("/api/admin/users", function (data) {
                     $("#work-table").html(generateWorkTable(data));
@@ -53,6 +53,7 @@ $(document).ready(function () {
         });
     });
 });
+
 
 
 
