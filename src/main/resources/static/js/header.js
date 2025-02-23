@@ -16,4 +16,12 @@ $(document).ready(function () {
             window.location.href = "/"; // После выхода перенаправляем на главную
         });
     });
+
+
+    $(".nav-link").click(function (e) {
+        e.preventDefault();
+        $(".nav-link").removeClass("active");
+        $(this).addClass("active");
+    });
 });
+

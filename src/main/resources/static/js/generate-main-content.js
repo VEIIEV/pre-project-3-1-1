@@ -3,8 +3,8 @@ function generateAdminPanel(users) {
     container.append(`
         <h2>Admin panel</h2>
         <div>
-            <a href="#" data-page="create-user-page">New User</a>
-            <a href="#" data-page="users-table-page">Users table</a>
+            <a href="#" data-page="create-user-page" class="nav-link">New User</a>
+            <a href="#" data-page="users-table-page" class="nav-link">Users table</a>
         </div>
     `);
 

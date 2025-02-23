@@ -1,28 +1,57 @@
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-
-        <form id="modal-user-update-form" action="/api/admin/users/{id}" method="post">
-            <input type="hidden" name="_method" value="PUT"/>
-
-            <label for="modal-firstName">Имя:</label>
-            <input type="text" id="modal-firstName" name="firstName" required>
-
-            <label for="modal-lastName">Фамилия:</label>
-            <input type="text" id="modal-lastName" name="lastName" required>
-
-            <label for="modal-email">Email:</label>
-            <input type="email" id="modal-email" name="email" required>
-
-            <label for="modal-username">username:</label>
-            <input type="text" id="modal-username" name="username" required>
-
-            <label for="modal-password">password:</label>
-            <input type="text" id="modal-password" name="password" required>
-
-            <div id="modalRoles">
+<!-- Bootstrap Modal -->
+<div id="modal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit user</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <button type="submit"> update user</button>
-        </form>
+
+            <div class="modal-body">
+                <form id="modal-user-update-form" action="/api/admin/users/{id}" method="post">
+                    <input type="hidden" name="_method" value="PUT"/>
+
+                    <div class="mb-3">
+                        <label for="modal-id" class="form-label">ID</label>
+                        <input type="text" id="modal-id" name="id" class="form-control" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modal-firstName" class="form-label">First name:</label>
+                        <input type="text" id="modal-firstName" name="firstName" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modal-lastName" class="form-label">Last name:</label>
+                        <input type="text" id="modal-lastName" name="lastName" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modal-email" class="form-label">Email:</label>
+                        <input type="email" id="modal-email" name="email" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modal-username" class="form-label">Username:</label>
+                        <input type="text" id="modal-username" name="username" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modal-password" class="form-label">Password:</label>
+                        <input type="password" id="modal-password" name="password" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <p class="fw-bold">Role</p>
+                        <div id="modalRoles"></div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="modal-user-update-form" class="btn btn-primary">Edit</button>
+            </div>
+        </div>
     </div>
 </div>

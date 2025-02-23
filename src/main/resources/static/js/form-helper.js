@@ -63,7 +63,8 @@ function handleUserModal(buttonSelector, apiUrlTemplate, modalSelector, closeSel
                 generateRoleCheckboxes("#modal", availableRoles, userRoles);
 
                 // Показываем модальное окно
-                $(modalSelector).fadeIn(200);
+                let modal = new bootstrap.Modal(document.getElementById("modal"));
+                modal.show();
             }).fail(function (xhr) {
                 alert("Ошибка при получение пользователя: " + xhr.responseText);
             });

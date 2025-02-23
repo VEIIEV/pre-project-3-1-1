@@ -1,0 +1,9 @@
+.nav-link {
+    color: #007bff;
+}
+
+.nav-link.active {
+    background-color: #322b2b;
+    border: 1px solid #dee2e6;
+    border-bottom-color: transparent;
+}
