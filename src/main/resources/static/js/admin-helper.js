@@ -32,11 +32,14 @@ function generateWorkTable(users) {
                 <td>${user.age ?? ''}</td>
                 <td>${user.email}</td>
                 <td>${authorities}</td>
-                <td><button class="btn btn-edit">Edit</button></td>
-                <td><button class="btn btn-delete">Delete</button></td>
+                <td><button class="btn btn-edit-${user.id}">Edit</button></td>
+                <td><button class="btn btn-delete-${user.id}">Delete</button></td>
             </tr>
         `);
     });
 
     return table;
 }
+
+
+

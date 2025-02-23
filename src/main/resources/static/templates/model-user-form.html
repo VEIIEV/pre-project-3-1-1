@@ -1,0 +1,28 @@
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+
+        <form id="modal-user-update-form" action="/api/admin/users/{id}" method="post">
+            <input type="hidden" name="_method" value="PUT"/>
+
+            <label for="modal-firstName">Имя:</label>
+            <input type="text" id="modal-firstName" name="firstName" required>
+
+            <label for="modal-lastName">Фамилия:</label>
+            <input type="text" id="modal-lastName" name="lastName" required>
+
+            <label for="modal-email">Email:</label>
+            <input type="email" id="modal-email" name="email" required>
+
+            <label for="modal-username">username:</label>
+            <input type="text" id="modal-username" name="username" required>
+
+            <label for="modal-password">password:</label>
+            <input type="text" id="modal-password" name="password" required>
+
+            <div id="modalRoles">
+            </div>
+            <button type="submit"> update user</button>
+        </form>
+    </div>
+</div>

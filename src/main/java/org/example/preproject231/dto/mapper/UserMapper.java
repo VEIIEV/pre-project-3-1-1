@@ -6,6 +6,8 @@ import org.example.preproject231.entity.Role;
 import org.example.preproject231.entity.User;
 import org.example.preproject231.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +19,13 @@ import java.util.stream.Collectors;
 @Component
 public class UserMapper {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
+    @Lazy
     @Autowired
     private UserService userService;
+
+
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     /**
      * Преобразует UserAuthDTO в User (Entity)
@@ -44,7 +48,9 @@ public class UserMapper {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setUsername(dto.getUsername());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
         user.setRoles(roles);
         return user;

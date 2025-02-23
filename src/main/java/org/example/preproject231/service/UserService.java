@@ -3,11 +3,14 @@ package org.example.preproject231.service;
 
 import org.example.preproject231.dao.RoleDao;
 import org.example.preproject231.dao.UserDao;
+import org.example.preproject231.dto.UserAuthDTO;
 import org.example.preproject231.dto.UserDto;
+import org.example.preproject231.dto.mapper.UserMapper;
 import org.example.preproject231.entity.Role;
 import org.example.preproject231.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,9 +29,12 @@ public class UserService implements UserDetailsService {
     @Autowired
     private RoleDao roleDao;
 
+    @Autowired
+    private UserMapper userMapper;
+
 
     public List<User> getUsersList() {
-        return userDao.findAll();
+        return userDao.findAll(Sort.by(Sort.Order.asc("id")));
     }
 
     public User getUserById(long id) {
@@ -42,24 +48,27 @@ public class UserService implements UserDetailsService {
                 orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
     }
 
-    public UserDto addUser(User user) {
+    public UserDto addUser(UserAuthDTO userAuthDTO) {
+
+        User user = userMapper.toEntity(userAuthDTO);
 
         User userFromDb = userDao.save(user);
         return new UserDto(userFromDb);
     }
 
-    public UserDto updateUser(long id, UserDto user, Set<String> roles) {
+    public UserAuthDTO updateUser(long id, UserAuthDTO userAuthDTO) {
         User userFromDb = userDao.findById(id).orElseThrow(
                 () -> new EmptyResultDataAccessException("User with id " + id + " not found", 1));
 
-        if (!userFromDb.getEmail().equals(user.getEmail())) {
-            userFromDb.setEmail(user.getEmail());
-        }
-        addRoles(roles, userFromDb);
+        User user = userMapper.toEntity(userAuthDTO);
+
+
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
-        userDao.save(userFromDb);
-        return user;
+        userFromDb.setEmail(user.getEmail());
+        userFromDb.setPassword(user.getPassword());
+        userFromDb.setRoles(user.getRoles());
+        return userMapper.toAuthDto(userDao.save(userFromDb));
     }
 
     private void addRoles(Set<String> roles, User userFromDb) {

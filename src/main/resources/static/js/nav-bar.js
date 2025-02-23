@@ -28,7 +28,7 @@ $(document).ready(function () {
                 $(this).fadeIn(200);
             });
         }).fail(function () {
-            $("#content").text("Ошибка загрузки данных.");
+            $("#content").text("Ошибка загрузки данных, вероятно вы админ");
         });
     });
 
@@ -46,8 +46,8 @@ $(document).ready(function () {
             } else if (page === "users-table-page") {
                 $.get("/api/admin/users", function (data) {
                     $("#work-table").html(generateWorkTable(data));
-                }).fail(function () {
-                    console.error("Ошибка загрузки списка пользователей");
+                }).fail(function (xhr) {
+                    alert("Ошибка при добавлении пользователя: " + xhr.responseText);
                 });
             }
         });
