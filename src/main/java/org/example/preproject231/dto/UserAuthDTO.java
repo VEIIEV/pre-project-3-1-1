@@ -7,8 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.preproject231.validation.annotation.ExistInDb;
-import org.example.preproject231.validation.annotation.UniqueUsernameAndEmail;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,8 +15,6 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ExistInDb(groups = {UserAuthDTO.AdminCreation.class})
-@UniqueUsernameAndEmail(groups = {UserAuthDTO.Registration.class, UserAuthDTO.AdminCreation.class})
 public class UserAuthDTO implements Serializable {
 
     @NotEmpty(groups = {AdminCreation.class})
@@ -33,7 +29,7 @@ public class UserAuthDTO implements Serializable {
     @NotEmpty(groups = {Login.class, Registration.class, AdminCreation.class})
     private String password;
 
-    @Email
+    @Email(groups = {Registration.class, AdminCreation.class})
     @NotEmpty(groups = {Registration.class, AdminCreation.class})
     private String email;
 

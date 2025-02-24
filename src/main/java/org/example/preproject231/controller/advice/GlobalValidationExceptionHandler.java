@@ -1,6 +1,7 @@
 package org.example.preproject231.controller.advice;
 
 
+import jakarta.validation.ValidationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,13 @@ public class GlobalValidationExceptionHandler extends DefaultHandlerExceptionRes
 
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public ResponseEntity<String> handleValidationExceptions(EmptyResultDataAccessException ex) {
+
+        String errors = ex.getMessage();
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<String> handleValidationExceptions(ValidationException ex) {
 
         String errors = ex.getMessage();
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);

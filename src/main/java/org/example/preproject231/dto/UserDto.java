@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.preproject231.entity.User;
-import org.example.preproject231.validation.annotation.UniqueEmail;
 
 import java.util.Objects;
 
@@ -14,7 +13,6 @@ import java.util.Objects;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@UniqueEmail
 public class UserDto {
 
     private String firstName;

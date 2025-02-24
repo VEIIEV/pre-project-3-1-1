@@ -1,6 +1,7 @@
 package org.example.preproject231.service;
 
 
+import jakarta.validation.ValidationException;
 import org.example.preproject231.dao.RoleDao;
 import org.example.preproject231.dao.UserDao;
 import org.example.preproject231.dto.UserAuthDTO;
@@ -16,9 +17,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service("dbUserDetailsService")
 public class UserService implements UserDetailsService {
@@ -49,6 +51,12 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDto addUser(UserAuthDTO userAuthDTO) {
+        if (!isValidRole(userAuthDTO)) {
+            throw new ValidationException("Role is not valid");
+        }
+        if (!isUniqueUserNameAndMail(userAuthDTO)) {
+            throw new ValidationException("Username and mail are not unique");
+        }
 
         User user = userMapper.toEntity(userAuthDTO);
 
@@ -56,7 +64,16 @@ public class UserService implements UserDetailsService {
         return new UserDto(userFromDb);
     }
 
+
     public UserAuthDTO updateUser(long id, UserAuthDTO userAuthDTO) {
+        if (!isValidRole(userAuthDTO)) {
+            throw new ValidationException("Role is not valid");
+        }
+        if (!isUniqueUserNameAndMail(userAuthDTO)) {
+            throw new ValidationException("Username and mail are not unique");
+        }
+
+
         User userFromDb = userDao.findById(id).orElseThrow(
                 () -> new EmptyResultDataAccessException("User with id " + id + " not found", 1));
 
@@ -71,13 +88,6 @@ public class UserService implements UserDetailsService {
         return userMapper.toAuthDto(userDao.save(userFromDb));
     }
 
-    private void addRoles(Set<String> roles, User userFromDb) {
-        if (roles != null) {
-            userFromDb.setRoles(roleDao.findByNameIn(roles));
-        } else {
-            userFromDb.setRoles(Collections.emptySet());
-        }
-    }
 
     public void deleteUser(long id) {
         userDao.deleteById(id);
@@ -91,5 +101,25 @@ public class UserService implements UserDetailsService {
 
     public Role getRoleByName(String name) {
         return roleDao.getRoleByName(Role.enumRole.valueOf(name));
+    }
+
+
+    private static boolean isValidRole(UserAuthDTO userAuthDTO) {
+        List<String> rolesName = Stream.of(Role.enumRole.values()).map(Role.enumRole::getValue).toList();
+        return new HashSet<>(rolesName).containsAll(userAuthDTO.getAuthorities());
+    }
+
+    private boolean isUniqueUserNameAndMail(UserAuthDTO userAuthDTO) {
+        Long currentUserid = -1L;
+        Optional<User> user = userDao.findByEmail(userAuthDTO.getEmail());
+        if (user.isPresent()) {
+            currentUserid = user.get().getId();
+        }
+
+        Optional<User> userOptional = userDao.findByUsernameOrEmailExcludingCurrent(
+                userAuthDTO.getUsername(),
+                userAuthDTO.getEmail(),
+                currentUserid);
+        return userOptional.isEmpty();
     }
 }
