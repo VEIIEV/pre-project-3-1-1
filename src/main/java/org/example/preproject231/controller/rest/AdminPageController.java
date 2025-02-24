@@ -1,6 +1,7 @@
 package org.example.preproject231.controller.rest;
 
 
+import jakarta.validation.Valid;
 import org.example.preproject231.dto.UserAuthDTO;
 import org.example.preproject231.dto.UserDto;
 import org.example.preproject231.dto.mapper.UserMapper;
@@ -38,7 +39,7 @@ public class AdminPageController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public UserDto addUser(@Validated(UserAuthDTO.AdminCreation.class) @ModelAttribute UserAuthDTO user) {
+    public UserDto addUser(@Valid @Validated(UserAuthDTO.AdminCreation.class) @ModelAttribute UserAuthDTO user) {
         return userService.addUser(user);
 
     }
@@ -46,7 +47,7 @@ public class AdminPageController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     public UserAuthDTO updateUser(@PathVariable("id") long id,
-                             @Validated() @ModelAttribute UserAuthDTO user) {
+                                  @Valid @Validated(UserAuthDTO.AdminCreation.class) @ModelAttribute UserAuthDTO user) {
 
         return userService.updateUser(id, user);
 
