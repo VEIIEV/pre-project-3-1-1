@@ -19,6 +19,9 @@ import java.util.List;
 @RequestMapping("/api/admin/users")
 public class AdminPageController {
 
+
+//todo поправить сообщение о нехватке прав в js
+
     @Autowired
     private UserService userService;
 

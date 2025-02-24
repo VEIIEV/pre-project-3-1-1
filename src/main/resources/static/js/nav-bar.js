@@ -1,4 +1,8 @@
+
 $(document).ready(function () {
+
+    loadMainContent('/api/admin/users', 'admin-page');
+
     // Обработчик кликов по элементам навбара
     $("#navbar a").click(function (e) {
         e.preventDefault();
@@ -17,23 +21,12 @@ $(document).ready(function () {
             url = '/api/users'
         }
         // Запрос на загрузку данных с сервера
-        $.get(url, function (data) {
-            $("#content").fadeOut(200, function () {
-                $(this).empty();
-                if (page === "admin-page") {
-                    $(this).append(generateAdminPanel(data));
-                } else if (page === "user-page") {
-                    $(this).append(generateUserPage(data));
-                }
-                $(this).fadeIn(200);
-            });
-        }).fail(function () {
-            $("#content").text("Ошибка загрузки данных, вероятно вы админ");
-        });
+        loadMainContent(url, page)
     });
 
     // Загрузка страницы по умолчанию
     $("#navbar a[data-page='user']").trigger("click");
+
 
     // Обработчик кликов на кнопки "Users table" и "New User"
     $(document).ready(function () {
@@ -52,6 +45,24 @@ $(document).ready(function () {
             }
         });
     });
+
+    function loadMainContent(url, page) {
+
+        // Запрос на загрузку данных с сервера
+        $.get(url, function (data) {
+            $("#content").fadeOut(200, function () {
+                $(this).empty();
+                if (page === "admin-page") {
+                    $(this).append(generateAdminPanel(data));
+                } else if (page === "user-page") {
+                    $(this).append(generateUserPage(data));
+                }
+                $(this).fadeIn(200);
+            });
+        }).fail(function () {
+            $("#content").text("u haven't enough permission");
+        });
+    }
 });
 
 
