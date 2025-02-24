@@ -39,7 +39,7 @@ public class SecurityConfig {
                 csrf(AbstractHttpConfigurer::disable).
                 authorizeHttpRequests(auth -> auth.
                         requestMatchers(
-                                new AntPathRequestMatcher("/admin/**")
+                                new AntPathRequestMatcher("/api/admin/**")
                         ).hasAuthority("ADMIN").
                         anyRequest().authenticated()).
                 anonymous(Customizer.withDefaults()).
